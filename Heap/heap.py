@@ -57,35 +57,32 @@ class Heap:
 
 
 
-x=Heap()
-l=[]
-x.insert(10)
-x.insert(20)
-x.insert(30)
-x.insert(500)
-x.insert(14)
-x.insert(12)
-x.insert(113)
 import random as ran
-def fill(n):
-    li=[ran.randint(-n,n) for i in range(n)]
-    x=Heap()
-    for i in li:
-        x.insert(i)
-    return x,li
+class Testing:
+    def __init__(self,tests = 10,max_lenght = 30,onlypositive=False):
+        self.tests=tests
+        self.max_lenght=max_lenght
+        self.sign = 1 if not onlypositive else -1
+        self.testing()
+    def fill(self,n):
+        li=[ran.randint(-n,n)*self.sign for i in range(n)]
+        x=Heap()
+        for i in li:
+            x.insert(i)
+        return x,li
 
-def pop(x,li):
-    li.sort(reverse=True)
-    for i in li:
-        if i!=x.pop():
-            return False
-    return True
+    def pop(self,x,li):
+        li.sort(reverse=True)
+        for i in li:
+            if i!=x.pop():
+                return False
+        return True
 
-def testing(tests):
-    for test in range(tests):
-        leng = ran.randint(1,30)
-        x,l=fill(leng)
-        passed='passed' if pop(x,l) else 'failed'
-        print('test :{} {} on len = {}'.format(test,passed,leng))
-        if passed =='failed':
-            print(l)
+    def testing(self):
+        for test in range(self.tests):
+            leng = ran.randint(1,self.max_lenght)
+            x,l=self.fill(leng)
+            passed='passed' if self.pop(x,l) else 'failed'
+            print('test :{} {} on len = {}'.format(test,passed,leng))
+            if passed =='failed':
+                print(l)    
