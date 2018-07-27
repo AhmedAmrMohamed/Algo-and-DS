@@ -1,11 +1,12 @@
 class Heap:
-    def __init__(self):
+    def __init__(self,max = True):
         self.li = [None]
         self.max=max
         self.size = 0
         self.parent = lambda a:a//2
         self.left   = lambda a:a<<1
         self.right  = lambda a:(a<<1)|1
+        self.cmp    = lambda a,b:a>b if max else a<b
         # self.comp   = key
     def __str__(self):
         return str(self.li)
@@ -17,7 +18,7 @@ class Heap:
         return self.size
     def swim(self,pos):
         li=self.li
-        while(pos > 1 and li[pos]>li[self.parent(pos)]):
+        while(pos > 1 and self.cmp(li[pos],li[self.parent(pos)])):
             parent_pos=self.parent(pos)
             li[pos],li[parent_pos] = li[parent_pos],li[pos]
             pos=parent_pos
@@ -27,9 +28,9 @@ class Heap:
         right=self.right
         while right(pos)<=self.size:
                 cpos=left(pos)
-                if li[cpos]<li[cpos+1]:
+                if not self.cmp(li[cpos],li[cpos+1]):
                     cpos+=1
-                if li[pos]>li[cpos]:
+                if self.cmp(li[pos],li[cpos]):
                     break
                 li[pos],li[cpos]=li[cpos],li[pos]
                 pos=cpos
@@ -40,7 +41,10 @@ class Heap:
         self.swim(self.size)
 
     def pop(self):
-        ret = self.li[1]
+        try:
+            ret = self.li[1]
+        except:
+            raise ValueError('Empty Queue')
         self.li[1]=self.li[self.size]
         self.sink(1)
         self.size-=1
@@ -59,30 +63,34 @@ class Heap:
 
 import random as ran
 class Testing:
-    def __init__(self,tests = 10,max_lenght = 30,onlypositive=False):
+    def __init__(self,tests = 10,max_lenght = 30,onlypositive=False,max = True):
         self.tests=tests
         self.max_lenght=max_lenght
         self.sign = 1 if not onlypositive else -1
+        self.max = max
         self.testing()
     def fill(self,n):
         li=[ran.randint(-n,n)*self.sign for i in range(n)]
-        x=Heap()
+        x=Heap(self.max)
         for i in li:
             x.insert(i)
         return x,li
 
     def pop(self,x,li):
-        li.sort(reverse=True)
+        li.sort(reverse=self.max)
         for i in li:
             if i!=x.pop():
                 return False
         return True
 
     def testing(self):
+        ret=[]
         for test in range(self.tests):
             leng = ran.randint(1,self.max_lenght)
             x,l=self.fill(leng)
             passed='passed' if self.pop(x,l) else 'failed'
             print('test :{} {} on len = {}'.format(test,passed,leng))
             if passed =='failed':
-                print(l)    
+                print(l)
+                ret.append(test)
+        print(ret)
