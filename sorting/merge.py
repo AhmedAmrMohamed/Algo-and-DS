@@ -1,4 +1,9 @@
 def sort(arr,reverse=False,key = lambda a,b:a<b ):
+    '''
+    arr     -> array to be sorted
+    reverse -> if ture the array will be sorted in revers order
+    key     -> how to compare between to elements.
+    '''
     n=len(arr)
     cmp = lambda key: key
     if reverse:
@@ -26,3 +31,10 @@ def sort(arr,reverse=False,key = lambda a,b:a<b ):
     ret.extend(fi[pfi:])
     ret.extend(se[pse:])
     return ret
+# if __name__=='__main__':
+#     import time
+#     import random as ra
+#     li = [ra.choice(range(1000000)) for i in range(100000)]
+#     t=time.time()
+#     sort(li)
+#     print(time.time()-t)
