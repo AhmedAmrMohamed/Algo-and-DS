@@ -1,4 +1,4 @@
-def sort(arr,reverse=False,key = lambda a,b:a<b ):
+def sort(arr,key = lambda a,b:a<b,reverse=False, ):
     '''
     arr     -> array to be sorted
     reverse -> if ture the array will be sorted in revers order
