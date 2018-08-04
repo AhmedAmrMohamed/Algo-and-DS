@@ -1,5 +1,5 @@
 class Shellsort:
-    def sort(itera,cmp=lambda a,b:a<b,reverse = False):
+    def __init__(self,itera,cmp=lambda a,b:a<b,reverse = False):
         key = lambda a,b : cmp(a,b) if not reverse else not cmp(a,b)
         size=len(itera)
         # print(size)
