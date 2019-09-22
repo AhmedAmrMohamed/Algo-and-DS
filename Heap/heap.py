@@ -1,13 +1,16 @@
 class Heap:
-    def __init__(self,list=None,max=True):
+    def __init__(self,list=None,max=True,key = None):
         self.li = [None]
         self.max=max
         self.size = 0
         self.parent = lambda a: a//2 if a//2 > 0 else 1
         self.left   = lambda a:a<<1
         self.right  = lambda a:(a<<1)|1
-        self.cmp    = lambda a,b:a>b if max else a<b
-        # self.comp   = key
+        if not key:
+            self.cmp    = lambda a,b:a>b if max else a<b
+        else:
+            self.cmp = key
+
         if list !=None:
             self.constructHeap(list)
     def __str__(self):
