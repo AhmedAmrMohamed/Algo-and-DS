@@ -5,15 +5,14 @@ public class Testing
    public static void main(String[] args)
    {
 
-     // LinkedStack stack  = new LinkedStack();
-     Stack stack  = new Stack();
+     Stack<Integer> stack  = new Stack<Integer>();
      System.out.println(stack.empty());
      Scanner in = new Scanner(System.in);
      int n = in.nextInt();
      while(n!=0)
       {
         --n;
-        String inp = in.next();
+        int inp = in.nextInt();
         stack.push(inp);
       }
       while(!stack.empty())
