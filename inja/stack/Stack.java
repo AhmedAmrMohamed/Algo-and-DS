@@ -1,12 +1,12 @@
 package stack;
-public class Stack<gene>
+public class Stack
 {
-    private gene[] stack;
+    private String[] stack;
     private int idx=0;
     private int capacity = 2;
     public Stack()
       {
-        stack = new gene[capacity];
+        stack = new String[capacity];
       }
       public Boolean empty()
       {
@@ -14,7 +14,7 @@ public class Stack<gene>
       }
       private void reSize(int newcapacity)
         {
-          gene[] temp = new gene[newcapacity];
+          String[] temp = new String[newcapacity];
           for(int i=0;i<idx;++i)
             temp[i]=stack[i];
           stack=temp;
@@ -36,5 +36,5 @@ public class Stack<gene>
                 reSize(stack.length/2);
               return stack[--idx];
             }
-          public int getcapacity(){return stack.length;}
+            public int getcapacity(){return stack.length;}
   }
