@@ -1,23 +1,22 @@
 package queue;
-public class Queue
+public class Queue<gene>
 {
   private class Node
     {
-      String item;
+      gene item;
       Node next;
-      public Node(String item)
+      public Node(gene item)
          { this.item = item;}
         @Override
           public String toString()
             {
-              return this.item+' '+this.next;
+              return this.item.toString()+' '+this.next;
             }
     }
-    private Node tst = new Node("null");
     private Node last = null;
     private Node first  = null;
     public Boolean empty(){return first == null;}
-    public void push(String item)
+    public void push(gene item)
       {
         Node newnode = new Node(item);
         if(empty())first = newnode;
@@ -26,14 +25,14 @@ public class Queue
         last = newnode;
 
       }
-      public String pop()
+      public gene pop()
         {
           Node temp = first;
           first = first.next;
           return temp.item;
         }
-      public String end()
+      public gene end()
       { return last.item;}
-    public String front()
+    public gene front()
       { return first.item;}
 }

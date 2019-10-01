@@ -4,7 +4,7 @@ public class Testing
 {
    public static void main(String[] args)
    {
-     Queue qu = new Queue();
+     Queue<String> qu = new Queue<String>();
      qu.push("hello");
      System.out.printf("%s %s\n",qu.front(),qu.end());
      qu.push("there");
