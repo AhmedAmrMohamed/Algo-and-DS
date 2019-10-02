@@ -109,6 +109,7 @@ public class DBL<gen> implements Iterable<gen>
 			head = node.next;
 		else
 			node.prev.next = node.next;
+		--size;
 	    return node.value;
 	}
 
