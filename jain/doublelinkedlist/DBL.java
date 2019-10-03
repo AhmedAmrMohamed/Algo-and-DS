@@ -39,7 +39,7 @@ public class DBL<gen> implements Iterable<gen>
 		{return size;}	
 	
 	public void clear()
-		{tail = null; head = null;}
+		{tail = null; head = null;size=0;}
 
 	private void pushfirst(gen value)
 	{
