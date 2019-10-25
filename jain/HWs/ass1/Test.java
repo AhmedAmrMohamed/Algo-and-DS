@@ -5,18 +5,20 @@ public class Test
 	public static void main(String[] args)
 	{
 		Random rand = new Random();
-		int counter = 10;
+		int counter = 30;
 		int nextop, val;
-		Queuewith2stacks<Integer> qws = new Queuewith2stacks<Integer>();
+		Queue<Integer> qws = new Queue<Integer>();
 		while(counter-- != 0)
 		{
 			nextop = rand.nextInt(2);
 			val    = rand.nextInt(50);
-			System.out.printf("op : %d , val : %d\n",nextop,val);
 			if(nextop==0)
-				System.out.println("poping : "+qws.pop()+"\n");
+				System.out.println("poping : "+qws.dequeue());
 			else
-				qws.push(val);
+			{
+				System.out.printf("pushing : %d\n",val);
+				qws.enqueue(val);
+			}
 		}
 
 	}

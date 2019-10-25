@@ -1,12 +1,12 @@
 package ass1;
 import java.util.*;
-public class Queuewith2stacks<item>
+public class Queue<item>
 {
 	private Stack<item> pusher = new Stack<item>();
 	private Stack<item> holder = new Stack<item>();
 	private int size  = 0;
 	
-	public void push(item value)
+	public void enqueue(item value)
 	{
 		pusher.push(value);
 		++size;
@@ -23,7 +23,7 @@ public class Queuewith2stacks<item>
 			dst.push(tmp);
 		}
 	}
-	public item pop()
+	public item dequeue()
 	{
 		if(pusher.isempty())return null;
 		holder.clear();
