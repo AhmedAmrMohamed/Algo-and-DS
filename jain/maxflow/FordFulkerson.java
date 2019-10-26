@@ -85,11 +85,15 @@ public class FordFulkerson
 			bottleneck = buildAugmentingPath();
 			System.out.println("BN : " + bottleneck);
 			flow      += bottleneck;
+			System.out.println("********");
 			while(!path.empty())
 			{
 				edge = path.pop();
+				System.out.println(edge);
 				edge.addflow(bottleneck);
 			}
+			System.out.println("########");
+			//network.printer();
 			pathfound = findAugmentingPath();
 		}
 		return flow;
