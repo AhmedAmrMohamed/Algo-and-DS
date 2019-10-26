@@ -5,9 +5,11 @@ public class FordFulkerson
 {
 	private final Flownetwork network;
 	private final int src,trg;
-	public int vis[];
-	public Stack<Edge> path;
+	private final int inf = 1<<30;
+	private int vis[];
 	private int maxflow;
+	private Stack<Edge> path;
+	
 
 	public FordFulkerson(Flownetwork fn)
 	{
@@ -16,10 +18,6 @@ public class FordFulkerson
 		trg     = fn.gettarget();
 		vis     = new int[fn.getsize()];
 		maxflow = solve();
-		//boolean flag  = findAugmentingPath();
-		//System.out.println("path exsists : " + flag);
-		//if(flag) System.out.println("bottleneck : " + buildAugmentingPath());
-
 	}
 	public int getmaxflow() { return maxflow; }
 
@@ -31,7 +29,7 @@ public class FordFulkerson
 		for(int i=0;i<network.getsize();i++) vis[i] = -1;
 
 		PriorityQueue<Integer> queue  = new PriorityQueue<Integer>();
-		int bottleneck = 1<<30;
+		int bottleneck = inf;
 		int top;
 		int res;
 		queue.clear();
@@ -43,7 +41,6 @@ public class FordFulkerson
 			for(Edge edge : network.edges[top])
 			{
 				res  = edge.getresidual();
-				//System.out.printf("top : %d , res : %d \n",top,res);
 				if( vis[edge.v] == -1 && res != 0 )
 				{
 					vis[edge.v] = top;
