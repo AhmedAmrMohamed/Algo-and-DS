@@ -4,6 +4,7 @@ import java.util.*;
 public class FordFulkerson
 {
 	private final Flownetwork network;
+	private final int src,trg;
 	public int vis[];
 	public Stack<Edge> path;
 	private int maxflow;
@@ -11,7 +12,9 @@ public class FordFulkerson
 	public FordFulkerson(Flownetwork fn)
 	{
 		network = fn;
-		vis    = new int[fn.getsize()];
+		src     = fn.getsource();
+		trg     = fn.gettarget();
+		vis     = new int[fn.getsize()];
 		maxflow = solve();
 		//boolean flag  = findAugmentingPath();
 		//System.out.println("path exsists : " + flag);
@@ -20,7 +23,7 @@ public class FordFulkerson
 	}
 	public int getmaxflow() { return maxflow; }
 
-	private boolean findAugmentingPath()
+	private int findAugmentingPath()
 	{
 		// return true if a path exists(build path in the process;
 		// return false otherwise.	
@@ -28,73 +31,54 @@ public class FordFulkerson
 		for(int i=0;i<network.getsize();i++) vis[i] = -1;
 
 		PriorityQueue<Integer> queue  = new PriorityQueue<Integer>();
-		int src = network.getsource();
-		int trg = network.gettarget();
+		int bottleneck = 1<<30;
 		int top;
+		int res;
 		queue.clear();
 		queue.add(src);
 		vis[src] = src;
 		while(queue.size() != 0)
 		{
 			top = queue.remove();
-			//System.out.println("top " + top);
 			for(Edge edge : network.edges[top])
 			{
-				//System.out.printf("top : %d , res : %d , v : %d \n" , top,edge.getresidual(),edge.v); 
-				if( vis[edge.v]        != -1 ) continue;
-				if( edge.getresidual() ==  0 ) continue;
-				vis[edge.v] = top;
-				queue.add(edge.v);
-				if(edge.v == trg) return true;
+				res  = edge.getresidual();
+				//System.out.printf("top : %d , res : %d \n",top,res);
+				if( vis[edge.v] == -1 && res != 0 )
+				{
+					vis[edge.v] = top;
+					bottleneck  = Math.min(res,bottleneck);
+					if(edge.v == trg) return bottleneck;
+					queue.add(edge.v);
+				}
 			}
 		}
-		return false;
+		return -1 ;
 	}
 	
-	private int buildAugmentingPath()
-	{
-		int trg = network.gettarget();
-		int src = network.getsource();
-		int cur = trg;
-		int nxt;
-		int bottleneck = 1 << 30;
-		path = new Stack<Edge>();
-		while(cur != src)
-		{
-			nxt = vis[cur];
-			Edge tmp = network.getEdge(nxt,cur);
-			//System.out.printf("nxt %d , cur %d\n" , nxt , cur);
-			//System.out.println(tmp);
-			//System.out.println(tmp == null);
-			path.push(tmp);
-			bottleneck = Math.min(bottleneck,tmp.getresidual());			
-			cur = nxt;
-		}
-
-		return bottleneck;
-	}
 	public int solve()
 	{
 		// return the maximum flow.
-		boolean pathfound = findAugmentingPath();
-		int     bottleneck;
-		Edge    edge;
-		int     flow = 0;
-		while (pathfound == true)
+		int  bottleneck = findAugmentingPath();
+		int  flow = 0;
+		int  cur , par;
+		Edge edge;
+
+		while (bottleneck != -1)
 		{
-			bottleneck = buildAugmentingPath();
 			System.out.println("BN : " + bottleneck);
-			flow      += bottleneck;
-			System.out.println("********");
-			while(!path.empty())
+			cur   = trg;
+			flow += bottleneck;
+			while(cur != src) 
 			{
-				edge = path.pop();
-				System.out.println(edge);
+				par  = vis[cur];
+				edge = network.getEdge(par , cur);
 				edge.addflow(bottleneck);
+				edge = network.getEdge(cur , par);
+				edge.addflow(-bottleneck);
+				cur = par;
 			}
-			System.out.println("########");
-			//network.printer();
-			pathfound = findAugmentingPath();
+			bottleneck = findAugmentingPath();
 		}
 		return flow;
 	}

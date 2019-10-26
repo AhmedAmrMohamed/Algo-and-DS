@@ -23,9 +23,8 @@ public class Flownetwork
 
 	public void addEdge(int u,int v,int capacity)
 	{
-		Edge edge = new Edge(u,v,capacity);
-		//System.out.println("edge");
-		edges[u].add(edge);
+		edges[u].add(new Edge(u,v,capacity));
+		edges[v].add(new Edge(v,u,capacity));
 	}
 
 	public Edge getEdge(int u,int v)
