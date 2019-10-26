@@ -8,7 +8,6 @@ public class FordFulkerson
 	private final int inf = 1<<30;
 	private int vis[];
 	private int maxflow;
-	private Stack<Edge> path;
 	
 
 	public FordFulkerson(Flownetwork fn)
@@ -28,16 +27,17 @@ public class FordFulkerson
 		vis = new int[network.getsize()];
 		for(int i=0;i<network.getsize();i++) vis[i] = -1;
 
-		PriorityQueue<Integer> queue  = new PriorityQueue<Integer>();
+		//PriorityQueue<Integer> queue  = new PriorityQueue<Integer>();
+		Stack<Integer> queue = new Stack<Integer>();
 		int bottleneck = inf;
 		int top;
 		int res;
 		queue.clear();
-		queue.add(src);
+		queue.push(src);
 		vis[src] = src;
 		while(queue.size() != 0)
 		{
-			top = queue.remove();
+			top = queue.pop();
 			for(Edge edge : network.edges[top])
 			{
 				res  = edge.getresidual();
@@ -46,7 +46,7 @@ public class FordFulkerson
 					vis[edge.v] = top;
 					bottleneck  = Math.min(res,bottleneck);
 					if(edge.v == trg) return bottleneck;
-					queue.add(edge.v);
+					queue.push(edge.v);
 				}
 			}
 		}
